@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,22 @@ namespace PuntoDeVenta.Models
             optionsBuilder.UseNpgsql("Host=localhost; Database=Clase; Username=postgres; password=nada123")
               .EnableSensitiveDataLogging(true);
 
+            base.OnConfiguring(optionsBuilder);
+
             /*optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Nombre de la base de datos; Itegrated Security=True")
                 .EnableSensitiveDataLogging(true);*/
         }
+
+        /*public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder
+                .AddFilter((category, level) =>
+                category == DbLoggerCategory.Database.Command.Name
+                && level == LogLevel.Information)
+                .AddProvider();
+        });*/
+
+        //Propiedad la cual indica a EntityFramework que vamos a tener una tabla para poder comunicarnos
+        public DbSet<Empleados> Empleados { get; set; }
     }
 }

@@ -10,11 +10,17 @@ using System.Windows.Forms;
 
 namespace PuntoDeVenta
 {
-    public partial class Dashboard : Form
+    public partial class FrmDashboard : Form
     {
-        public Dashboard()
+        public FrmDashboard()
         {
             InitializeComponent();
+        }
+
+        private void btnEmpleados_Click(object sender, EventArgs e)
+        {
+            FrmEmpleados frmEmpleados = new FrmEmpleados();
+            frmEmpleados.Show();
         }
     }
 }
