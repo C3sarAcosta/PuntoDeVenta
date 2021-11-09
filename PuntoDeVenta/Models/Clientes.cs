@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PuntoDeVenta.Models
 {
-    class Empleados
+    class Clientes
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

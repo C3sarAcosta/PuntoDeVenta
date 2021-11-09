@@ -39,5 +39,6 @@ namespace PuntoDeVenta.Models
 
         //Propiedad la cual indica a EntityFramework que vamos a tener una tabla para poder comunicarnos
         public DbSet<Empleados> Empleados { get; set; }
+        public DbSet<Clientes> Clientes { get; set; }
     }
 }

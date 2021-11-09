@@ -13,6 +13,7 @@ namespace PuntoDeVenta
 {
     public partial class FrmEmpleados : Form
     {
+        public int id=0;
         public FrmEmpleados()
         {
             InitializeComponent();
@@ -49,7 +50,7 @@ namespace PuntoDeVenta
             {
                 //Paso 1: Creamos el objeto
                 var empleado1 = new Empleados();
-                empleado1.Nombres = txtNombre.Text;
+                empleado1.Nombre = txtNombre.Text;
                 empleado1.ApellidoPaterno = txtApellidoPaterno.Text;
                 empleado1.ApellidoMaterno = txtApellidoMaterno.Text;
                 empleado1.Sexo = rbtnFemenino.Checked ? "Femenino" : "Masculino";
@@ -68,8 +69,65 @@ namespace PuntoDeVenta
         {
             using (var context = new ApplicationDbContext())
             {
-                var empleados = context.Empleados.Where(x => x.Nombres.Contains(txtNombre.Text)).ToList();
+                var empleados = context.Empleados.Where(x => x.Nombre.Contains(txtNombre.Text)).ToList();
                 dgvEmpleados.DataSource = empleados;
+            }
+        }
+
+        private void dgvEmpleados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            id = Convert.ToInt32(dgvEmpleados.CurrentRow.Cells[0].Value.ToString());
+            txtNombre.Text = dgvEmpleados.CurrentRow.Cells[1].Value.ToString();
+            txtApellidoPaterno.Text = dgvEmpleados.CurrentRow.Cells[2].Value.ToString();
+            txtApellidoMaterno.Text = dgvEmpleados.CurrentRow.Cells[3].Value.ToString();
+            if(dgvEmpleados.CurrentRow.Cells[4].Value.ToString() == "Femenino")
+            {
+                rbtnFemenino.Checked = true;
+            }
+            else
+            {
+                rbtnMasculino.Checked = true;
+            }
+            dtpFechaNacimiento.Value = Convert.ToDateTime(dgvEmpleados.CurrentRow.Cells[5].Value.ToString());
+            txtRFC.Text = dgvEmpleados.CurrentRow.Cells[6].Value.ToString();
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                if (id != 0)
+                {
+                    //Busqueda con un ORM
+                    var empleado = context.Empleados.First(x => x.Id == id);
+                    if(empleado != null)
+                    {
+                        empleado.Nombre = txtNombre.Text;
+                        empleado.ApellidoPaterno = txtApellidoPaterno.Text;
+                        empleado.ApellidoMaterno = txtApellidoMaterno.Text;
+                        empleado.Sexo = rbtnFemenino.Checked ? "Femenino" : "Masculino";
+                        empleado.FechaNacimiento = dtpFechaNacimiento.Value.Date;
+                        empleado.RFC = txtRFC.Text;
+                        context.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                if (id != 0)
+                {
+                    //Busqueda con un ORM
+                    var empleado = context.Empleados.First(x => x.Id == id);
+                    if (empleado != null)
+                    {
+                        context.Remove(empleado);
+                        context.SaveChanges();
+                    }
+                }
             }
         }
     }
