@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PuntoDeVenta.Models;
@@ -9,9 +10,10 @@ using PuntoDeVenta.Models;
 namespace PuntoDeVenta.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211118174124_Ventas")]
+    partial class Ventas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,27 +57,6 @@ namespace PuntoDeVenta.Migrations
                     b.HasIndex("VentasId");
 
                     b.ToTable("Clientes");
-                });
-
-            modelBuilder.Entity("PuntoDeVenta.Models.DescVentas", b =>
-                {
-                    b.Property<int>("ProductosId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VentasId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ProductosId", "VentasId");
-
-                    b.HasIndex("VentasId");
-
-                    b.ToTable("DescVentas");
                 });
 
             modelBuilder.Entity("PuntoDeVenta.Models.Empleados", b =>
@@ -156,35 +137,9 @@ namespace PuntoDeVenta.Migrations
                     b.Navigation("Ventas");
                 });
 
-            modelBuilder.Entity("PuntoDeVenta.Models.DescVentas", b =>
-                {
-                    b.HasOne("PuntoDeVenta.Models.Productos", "Productos")
-                        .WithMany("DescVentas")
-                        .HasForeignKey("ProductosId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PuntoDeVenta.Models.Ventas", "Ventas")
-                        .WithMany("DescVentas")
-                        .HasForeignKey("VentasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Productos");
-
-                    b.Navigation("Ventas");
-                });
-
-            modelBuilder.Entity("PuntoDeVenta.Models.Productos", b =>
-                {
-                    b.Navigation("DescVentas");
-                });
-
             modelBuilder.Entity("PuntoDeVenta.Models.Ventas", b =>
                 {
                     b.Navigation("Clientes");
-
-                    b.Navigation("DescVentas");
                 });
 #pragma warning restore 612, 618
         }

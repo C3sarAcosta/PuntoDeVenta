@@ -15,5 +15,8 @@ namespace PuntoDeVenta.Models
         public string Sexo { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public string RFC { get; set; }
+
+        public int VentaId { get; set; }
+        public Ventas Ventas { get; set; }
     }
 }
